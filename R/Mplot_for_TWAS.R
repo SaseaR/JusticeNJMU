@@ -45,7 +45,7 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
     d_sig_all<-d[which(abs(d$TWAS.FDR) < Sig_FDR_Thresh),]
     d_sig_all<-d_sig_all[order(d_sig_all$TWAS.FDR),]
     d_sig<-d_sig_all[!duplicated(d_sig_all$ID),]
-    d_sig_all_left <- d_sig_all[!rownames(d_sig_all)%in%rownames(d_sig),]
+    # d_sig_all_left <- d_sig_all[!rownames(d_sig_all)%in%rownames(d_sig),]
     d_no_sig<-d[which(abs(d$TWAS.FDR) >= Sig_FDR_Thresh),]
     if(!nrow(d_sig_all)==0){
       sig_level <- mean(c(min(-log10(d_sig_all$TWAS.P)),max(-log10(d_no_sig$TWAS.P))))
@@ -87,7 +87,7 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
         panel.background = element_blank(),
         axis.line = element_line(colour = "black")
       )
-    p
+    print(p)
   }
 
   colors <- list(
@@ -118,6 +118,6 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
   print(TWAS_manhattan(dataframe=twas,title=title,color=colors[[color_scheme]]))
   dev.off()
 
-  cat(paste0('+++---------------------------------- Mplot of *** ',title,'with color scheme ',color_scheme,' *** has been drawn! ----------------------------------+++'))
+  cat(paste0('+++---------------------------------- Mplot of *** ',title,'with color scheme ',color_scheme,' *** has been drawn! ----------------------------------+++\n'))
 
 }
