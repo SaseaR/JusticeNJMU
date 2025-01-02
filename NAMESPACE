@@ -2,3 +2,4 @@
 
 export(Mplot_for_Meta)
 export(Mplot_for_QTLs)
+export(Mplot_for_TWAS)
