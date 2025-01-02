@@ -23,7 +23,7 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
     d=d[!is.na(d$TWAS.P),]
     d=d[!is.na(d$TWAS.FDR),]
 
-    d$pos=NA
+    d$pos=0
     ticks=NULL
     lastbase=0
     numchroms=length(unique(d$CHR))
@@ -47,7 +47,12 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
     d_sig<-d_sig_all[!duplicated(d_sig_all$ID),]
     d_sig_all_left <- d_sig_all[!rownames(d_sig_all)%in%rownames(d_sig),]
     d_no_sig<-d[which(abs(d$TWAS.FDR) >= Sig_FDR_Thresh),]
-    sig_level <- mean(c(min(-log10(d_sig_all$TWAS.P)),max(-log10(d_no_sig$TWAS.P))))
+    if(!nrow(d_sig_all)==0){
+      sig_level <- mean(c(min(-log10(d_sig_all$TWAS.P)),max(-log10(d_no_sig$TWAS.P))))
+    }else{
+      sig_level <- NULL
+    }
+
     chr_labs<-as.character(unique(d$CHR))
 
     if(dim(d_sig)[1] == 0){
@@ -66,7 +71,7 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
         scale_y_continuous(name=bquote(-"log"[10]("p-value")),limits=c(0,ylimit)) +
         scale_colour_manual(values=mycols, guide=FALSE) +
         geom_hline(yintercept=sig_level,colour="black",linetype='dashed',size=1.5) +
-        geom_point(data=d_sig_all_left, aes(x=pos,y=-log10(d_sig_all_left$TWAS.P)), colour="#F98232", fill='#F98232', size=3) +
+        geom_point(data=d_sig, aes(x=pos,y=-log10(d_sig$TWAS.P)), colour="#F98232", fill='#F98232', size=3) +
         geom_point(data=d_sig, aes(x=pos,y=-log10(d_sig$TWAS.P)), colour="#DC0000B2", fill='#DC0000B2', size=3)
 
       p<-p+geom_text_repel(data=d_sig, aes(x=pos,y=-log10(d_sig$TWAS.P), label=ID),
@@ -116,4 +121,3 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
   cat(paste0('+++---------------------------------- Mplot of *** ',title,'with color scheme ',color_scheme,' *** has been drawn! ----------------------------------+++'))
 
 }
-
