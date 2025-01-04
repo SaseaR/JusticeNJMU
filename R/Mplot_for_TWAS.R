@@ -82,7 +82,7 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
       ggtitle(title) + # 添加标题
       theme(
         axis.text.x = element_text(size=14),
-        plot.title = element_text(hjust=0.5, size=14),
+        plot.title = element_text(hjust=0.5, size=18),
         panel.border = element_rect(colour = "black", fill=NA, size=1),
         panel.background = element_blank(),
         axis.line = element_line(colour = "black")
