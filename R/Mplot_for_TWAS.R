@@ -80,7 +80,7 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
 
     p<-p +
       ggtitle(title) + # 添加标题
-      theme_bw(base_size = 14) +
+      theme_classic(base_size = 14) +
       theme(
         axis.text.x = element_text(size=14),
         plot.title = element_text(hjust=0.5, size=18),
