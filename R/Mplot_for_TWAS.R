@@ -63,18 +63,8 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
         scale_colour_manual(values=mycols, guide=FALSE) +
         geom_hline(yintercept=sig_level,colour="black",linetype='dashed',size=1.5)
 
-    } else {
+    } else if(nrow(d_sig_all_left) == 0){
 
-        if(nrow(d_sig_all_left)>0){
-          p<-ggplot(d_no_sig,aes(x=pos,y=-log10(d_no_sig$TWAS.P),colour=factor(CHR))) +
-            geom_point(size=3) +
-            scale_x_continuous(name="Chromosome", breaks=ticks, labels=chr_labs) +
-            scale_y_continuous(name=bquote(-"log"[10]("p-value")),limits=c(0,ylimit)) +
-            scale_colour_manual(values=mycols, guide=FALSE) +
-            geom_hline(yintercept=sig_level,colour="black",linetype='dashed',size=1.5) +
-            geom_point(data=d_sig_all_left, aes(x=pos,y=-log10(d_sig_all_left$TWAS.P)), colour="#F98232", fill='#F98232', size=3) +
-            geom_point(data=d_sig, aes(x=pos,y=-log10(d_sig$TWAS.P)), colour="#DC0000B2", fill='#DC0000B2', size=3)
-        }else{
           p<-ggplot(d_no_sig,aes(x=pos,y=-log10(d_no_sig$TWAS.P),colour=factor(CHR))) +
             geom_point(size=3) +
             scale_x_continuous(name="Chromosome", breaks=ticks, labels=chr_labs) +
@@ -83,7 +73,20 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
             geom_hline(yintercept=sig_level,colour="black",linetype='dashed',size=1.5) +
             # geom_point(data=d_sig_all_left, aes(x=pos,y=-log10(d_sig_all_left$TWAS.P)), colour="#F98232", fill='#F98232', size=3) +
             geom_point(data=d_sig, aes(x=pos,y=-log10(d_sig$TWAS.P)), colour="#DC0000B2", fill='#DC0000B2', size=3)
-        }
+
+      p<-p+geom_text_repel(data=d_sig, aes(x=pos,y=-log10(d_sig$TWAS.P), label=ID),
+                           colour='black', nudge_y=1, size=3.5, force=5, segment.alpha=0.25, ylim=c(sig_level+0.1,NA))
+
+    }else{
+
+      p<-ggplot(d_no_sig,aes(x=pos,y=-log10(d_no_sig$TWAS.P),colour=factor(CHR))) +
+        geom_point(size=3) +
+        scale_x_continuous(name="Chromosome", breaks=ticks, labels=chr_labs) +
+        scale_y_continuous(name=bquote(-"log"[10]("p-value")),limits=c(0,ylimit)) +
+        scale_colour_manual(values=mycols, guide=FALSE) +
+        geom_hline(yintercept=sig_level,colour="black",linetype='dashed',size=1.5) +
+        geom_point(data=d_sig_all_left, aes(x=pos,y=-log10(d_sig_all_left$TWAS.P)), colour="#F98232", fill='#F98232', size=3) +
+        geom_point(data=d_sig, aes(x=pos,y=-log10(d_sig$TWAS.P)), colour="#DC0000B2", fill='#DC0000B2', size=3)
 
       p<-p+geom_text_repel(data=d_sig, aes(x=pos,y=-log10(d_sig$TWAS.P), label=ID),
                            colour='black', nudge_y=1, size=3.5, force=5, segment.alpha=0.25, ylim=c(sig_level+0.1,NA))
