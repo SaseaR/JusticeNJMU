@@ -87,7 +87,7 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
         panel.background = element_blank(),
         axis.line = element_line(colour = "black")
       )
-    print(p)
+    # print(p)
   }
 
   colors <- list(
@@ -118,6 +118,6 @@ Mplot_for_TWAS <- function(file_path,file_name,title,Sig_FDR_Thresh,outDir,color
   print(TWAS_manhattan(dataframe=twas,title=title,color=colors[[color_scheme]]))
   dev.off()
 
-  cat(paste0('+++---------------------------------- Mplot of *** ',title,'with color scheme ',color_scheme,' *** has been drawn! ----------------------------------+++\n'))
+  cat(paste0('+++---------------------------------- Mplot of *** ',title,' with color scheme ',color_scheme,' *** has been drawn! ----------------------------------+++\n'))
 
 }
